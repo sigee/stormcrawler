@@ -62,12 +62,12 @@ import okhttp3.brotli.BrotliInterceptor;
 import okio.BufferedSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.mutable.MutableObject;
+import org.apache.http.HttpHeaders;
 import org.apache.http.cookie.Cookie;
 import org.apache.storm.Config;
 import org.apache.stormcrawler.Constants;
 import org.apache.stormcrawler.Metadata;
 import org.apache.stormcrawler.protocol.AbstractHttpProtocol;
-import org.apache.stormcrawler.protocol.HttpHeaders;
 import org.apache.stormcrawler.protocol.ProtocolResponse;
 import org.apache.stormcrawler.protocol.ProtocolResponse.TrimmedContentReason;
 import org.apache.stormcrawler.proxy.SCProxy;
@@ -352,7 +352,7 @@ public class HttpProtocol extends AbstractHttpProtocol {
 
             final String lastModified = metadata.getFirstValue(HttpHeaders.LAST_MODIFIED);
             if (StringUtils.isNotBlank(lastModified)) {
-                rb.header("If-Modified-Since", HttpHeaders.formatHttpDate(lastModified));
+                rb.header("If-Modified-Since", formatHttpDate(lastModified));
             }
 
             final String ifNoneMatch = metadata.getFirstValue("etag", protocolMDprefix);

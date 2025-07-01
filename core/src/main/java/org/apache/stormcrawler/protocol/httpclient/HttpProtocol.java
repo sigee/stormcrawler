@@ -32,6 +32,7 @@ import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.http.Header;
 import org.apache.http.HeaderIterator;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -59,7 +60,6 @@ import org.apache.stormcrawler.Constants;
 import org.apache.stormcrawler.Metadata;
 import org.apache.stormcrawler.persistence.Status;
 import org.apache.stormcrawler.protocol.AbstractHttpProtocol;
-import org.apache.stormcrawler.protocol.HttpHeaders;
 import org.apache.stormcrawler.protocol.Protocol;
 import org.apache.stormcrawler.protocol.ProtocolResponse;
 import org.apache.stormcrawler.proxy.SCProxy;
@@ -217,7 +217,7 @@ public class HttpProtocol extends AbstractHttpProtocol
 
             String lastModified = md.getFirstValue(HttpHeaders.LAST_MODIFIED);
             if (StringUtils.isNotBlank(lastModified)) {
-                request.addHeader("If-Modified-Since", HttpHeaders.formatHttpDate(lastModified));
+                request.addHeader("If-Modified-Since", formatHttpDate(lastModified));
             }
 
             String ifNoneMatch = md.getFirstValue("etag", protocolMDprefix);
