@@ -117,7 +117,7 @@ public class Metadata {
     }
 
     public boolean containsKey(String key) {
-        return md.containsKey(key) ||  md.containsKey(key.toLowerCase());
+        return md.containsKey(key) || md.containsKey(key.toLowerCase());
     }
 
     public boolean containsKeyWithValue(String key, String value) {

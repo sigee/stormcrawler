@@ -241,5 +241,4 @@ public abstract class AbstractHttpProtocol implements Protocol {
             return "";
         }
     }
-
 }
