@@ -57,7 +57,6 @@ List of third-party dependencies grouped by their license type.
         * Apache HttpAsyncClient (org.apache.httpcomponents:httpasyncclient:4.1.5 - http://hc.apache.org/httpcomponents-asyncclient)
         * Apache HttpClient (org.apache.httpcomponents:httpclient:4.5.14 - http://hc.apache.org/httpcomponents-client-ga)
         * Apache HttpClient Mime (org.apache.httpcomponents:httpmime:4.5.14 - http://hc.apache.org/httpcomponents-client-ga)
-        * Apache HttpComponents Core HTTP/1.1 (org.apache.httpcomponents.core5:httpcore5:5.3.4 - https://hc.apache.org/httpcomponents-core-5.3.x/5.3.4/httpcore5/)
         * Apache HttpCore (org.apache.httpcomponents:httpcore:4.4.16 - http://hc.apache.org/httpcomponents-core-ga)
         * Apache HttpCore NIO (org.apache.httpcomponents:httpcore-nio:4.4.16 - http://hc.apache.org/httpcomponents-core-ga)
         * Apache James :: Mime4j :: Core (org.apache.james:apache-mime4j-core:0.8.12 - http://james.apache.org/mime4j/apache-mime4j-core)
