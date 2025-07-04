@@ -54,7 +54,7 @@ class MultiProxyManagerTest {
             "http://example.com:80",
             "sock5://example.com:64000"
         };
-        String fileName = "/tmp/proxies.txt";
+        String fileName = Files.createTempFile("proxies", "txt").toString();
         FileWriter writer = new FileWriter(fileName, StandardCharsets.UTF_8);
         for (String proxyString : proxyStrings) {
             writer.write("# fake comment to test" + "\n");
