@@ -20,6 +20,7 @@ import com.esotericsoftware.kryo.serializers.DefaultArraySerializers.StringArray
 import com.esotericsoftware.kryo.serializers.DefaultSerializers.StringSerializer;
 import com.esotericsoftware.kryo.serializers.MapSerializer.BindMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -158,6 +159,10 @@ public class Metadata {
         newvals[currentLength] = value;
         System.arraycopy(existingvals, 0, newvals, 0, currentLength);
         md.put(key, newvals);
+    }
+
+    public void addValues(String key, String[] values) {
+        addValues(key, Arrays.asList(values));
     }
 
     public void addValues(String key, Collection<String> values) {
