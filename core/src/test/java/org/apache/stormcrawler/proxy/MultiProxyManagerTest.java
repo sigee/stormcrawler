@@ -54,7 +54,8 @@ class MultiProxyManagerTest {
             "http://example.com:80",
             "sock5://example.com:64000"
         };
-        FileWriter writer = new FileWriter("/tmp/proxies.txt", StandardCharsets.UTF_8);
+        String fileName = "/tmp/proxies.txt";
+        FileWriter writer = new FileWriter(fileName, StandardCharsets.UTF_8);
         for (String proxyString : proxyStrings) {
             writer.write("# fake comment to test" + "\n");
             writer.write("// fake comment to test" + "\n");
@@ -64,12 +65,12 @@ class MultiProxyManagerTest {
         }
         writer.close();
         Config config = new Config();
-        config.put("http.proxy.file", "/tmp/proxies.txt");
+        config.put("http.proxy.file", fileName);
         config.put("http.proxy.rotation", "ROUND_ROBIN");
         MultiProxyManager pm = new MultiProxyManager();
         pm.configure(config);
         Assertions.assertEquals(pm.proxyCount(), proxyStrings.length);
-        Files.deleteIfExists(Paths.get("/tmp/proxies.txt"));
+        Files.deleteIfExists(Paths.get(fileName));
     }
 
     @Test
