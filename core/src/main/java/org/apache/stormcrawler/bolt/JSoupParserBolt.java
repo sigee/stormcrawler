@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -290,7 +291,7 @@ public class JSoupParserBolt extends StatusEmitterBolt {
             } else {
                 final Elements links = jsoupDoc.select("a[href]");
                 slinks = new HashMap<>(links.size());
-                final URL baseURL = new URL(url);
+                final URL baseURL = new URI(url).toURL();
                 for (Element link : links) {
                     // nofollow
                     String[] relkeywords = link.attr("rel").split(" ");

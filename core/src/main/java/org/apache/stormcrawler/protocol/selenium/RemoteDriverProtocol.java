@@ -16,6 +16,7 @@
  */
 package org.apache.stormcrawler.protocol.selenium;
 
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class RemoteDriverProtocol extends SeleniumProtocol {
         for (String cdaddress : addresses) {
             try {
                 RemoteWebDriver driver =
-                        new RemoteWebDriver(new URL(cdaddress), capabilities, tracing);
+                        new RemoteWebDriver(new URI(cdaddress).toURL(), capabilities, tracing);
                 // setting timouts
                 // see https://www.browserstack.com/guide/understanding-selenium-timeouts
                 Timeouts touts = driver.manage().timeouts();

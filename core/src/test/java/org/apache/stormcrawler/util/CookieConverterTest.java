@@ -17,6 +17,8 @@
 package org.apache.stormcrawler.util;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import org.apache.http.cookie.Cookie;
@@ -307,8 +309,8 @@ class CookieConverterTest {
 
     private URL getUrl(String urlString) {
         try {
-            return new URL(urlString);
-        } catch (MalformedURLException e) {
+            return new URI(urlString).toURL();
+        } catch (MalformedURLException | URISyntaxException e) {
             return null;
         }
     }

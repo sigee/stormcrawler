@@ -19,6 +19,8 @@ package org.apache.stormcrawler.filtering;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,9 +46,9 @@ class HostURLFilterTest {
     }
 
     @Test
-    void testAllAllowed() throws MalformedURLException {
+    void testAllAllowed() throws MalformedURLException, URISyntaxException {
         HostURLFilter allAllowed = createFilter(false, false);
-        URL sourceURL = new URL("http://www.sourcedomain.com/index.html");
+        URL sourceURL = new URI("http://www.sourcedomain.com/index.html").toURL();
         Metadata metadata = new Metadata();
         String filterResult =
                 allAllowed.filter(sourceURL, metadata, "http://www.sourcedomain.com/index.html");
@@ -60,9 +62,9 @@ class HostURLFilterTest {
     }
 
     @Test
-    void testAllForbidden() throws MalformedURLException {
+    void testAllForbidden() throws MalformedURLException, URISyntaxException {
         HostURLFilter allAllowed = createFilter(true, true);
-        URL sourceURL = new URL("http://www.sourcedomain.com/index.html");
+        URL sourceURL = new URI("http://www.sourcedomain.com/index.html").toURL();
         Metadata metadata = new Metadata();
         String filterResult =
                 allAllowed.filter(sourceURL, metadata, "http://www.sourcedomain.com/index.html");
@@ -76,9 +78,9 @@ class HostURLFilterTest {
     }
 
     @Test
-    void testWithinHostOnly() throws MalformedURLException {
+    void testWithinHostOnly() throws MalformedURLException, URISyntaxException {
         HostURLFilter allAllowed = createFilter(true, false);
-        URL sourceURL = new URL("http://www.sourcedomain.com/index.html");
+        URL sourceURL = new URI("http://www.sourcedomain.com/index.html").toURL();
         Metadata metadata = new Metadata();
         String filterResult =
                 allAllowed.filter(sourceURL, metadata, "http://www.sourcedomain.com/index.html");
@@ -92,9 +94,9 @@ class HostURLFilterTest {
     }
 
     @Test
-    void testWithinDomain() throws MalformedURLException {
+    void testWithinDomain() throws MalformedURLException, URISyntaxException {
         HostURLFilter allAllowed = createFilter(false, true);
-        URL sourceURL = new URL("http://www.sourcedomain.com/index.html");
+        URL sourceURL = new URI("http://www.sourcedomain.com/index.html").toURL();
         Metadata metadata = new Metadata();
         String filterResult =
                 allAllowed.filter(sourceURL, metadata, "http://www.sourcedomain.com/index.html");

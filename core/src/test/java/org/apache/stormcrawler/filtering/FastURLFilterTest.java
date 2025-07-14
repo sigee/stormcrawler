@@ -19,6 +19,8 @@ package org.apache.stormcrawler.filtering;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,28 +41,28 @@ class FastURLFilterTest {
     }
 
     @Test
-    void testImagesFilter() throws MalformedURLException {
-        URL url = new URL("http://www.somedomain.com/image.jpg");
+    void testImagesFilter() throws MalformedURLException, URISyntaxException {
+        URL url = new URI("http://www.somedomain.com/image.jpg").toURL();
         Metadata metadata = new Metadata();
         String filterResult = createFilter().filter(url, metadata, url.toExternalForm());
         Assertions.assertEquals(null, filterResult);
     }
 
     @Test
-    void testDomainNotAllowed() throws MalformedURLException {
-        URL url = new URL("http://stormcrawler.net/");
+    void testDomainNotAllowed() throws MalformedURLException, URISyntaxException {
+        URL url = new URI("http://stormcrawler.net/").toURL();
         Metadata metadata = new Metadata();
         String filterResult = createFilter().filter(url, metadata, url.toExternalForm());
         Assertions.assertEquals(null, filterResult);
         // allowed
-        url = new URL("http://stormcrawler.net/bla/");
+        url = new URI("http://stormcrawler.net/bla/").toURL();
         filterResult = createFilter().filter(url, metadata, url.toExternalForm());
         Assertions.assertEquals(url.toString(), filterResult);
     }
 
     @Test
-    void testMD() throws MalformedURLException {
-        URL url = new URL("http://somedomain.net/");
+    void testMD() throws MalformedURLException, URISyntaxException {
+        URL url = new URI("http://somedomain.net/").toURL();
         Metadata metadata = new Metadata();
         metadata.addValue("key", "value");
         String filterResult = createFilter().filter(url, metadata, url.toExternalForm());

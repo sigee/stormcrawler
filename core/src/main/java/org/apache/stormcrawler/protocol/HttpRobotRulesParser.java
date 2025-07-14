@@ -19,6 +19,7 @@ package org.apache.stormcrawler.protocol;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.common.primitives.Ints;
 import crawlercommons.robots.BaseRobotRules;
+import java.net.URI;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -128,7 +129,7 @@ public class HttpRobotRulesParser extends RobotRulesParser {
         LOG.debug("Cache miss {} for {}", cacheKey, url);
         List<Integer> bytesFetched = new LinkedList<>();
         try {
-            robotsUrl = new URL(url, "/robots.txt");
+            robotsUrl = new URI(url + "/robots.txt").toURL();
             ProtocolResponse response = http.getProtocolOutput(robotsUrl.toString(), fetchRobotsMd);
             int code = response.getStatusCode();
             bytesFetched.add(response.getContent() != null ? response.getContent().length : 0);

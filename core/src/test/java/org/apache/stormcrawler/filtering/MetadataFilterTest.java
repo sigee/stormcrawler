@@ -19,6 +19,8 @@ package org.apache.stormcrawler.filtering;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,18 +41,18 @@ class MetadataFilterTest {
     }
 
     @Test
-    void testFilterNoMD() throws MalformedURLException {
+    void testFilterNoMD() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("key", "val");
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
         Assertions.assertEquals(url.toExternalForm(), filterResult);
     }
 
     @Test
-    void testFilterHit() throws MalformedURLException {
+    void testFilterHit() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("key", "val");
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         metadata.addValue("key", "val");
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
@@ -58,9 +60,9 @@ class MetadataFilterTest {
     }
 
     @Test
-    void testFilterNoHit() throws MalformedURLException {
+    void testFilterNoHit() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("key", "val");
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         metadata.addValue("key", "val2");
         metadata.addValue("key", "val3");

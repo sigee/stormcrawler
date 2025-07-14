@@ -19,6 +19,7 @@ package org.apache.stormcrawler.util;
 import java.net.IDN;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -127,8 +128,8 @@ public class URLUtil {
      */
     public static String getHost(String url) {
         try {
-            return new URL(url).getHost().toLowerCase(Locale.ROOT);
-        } catch (MalformedURLException e) {
+            return new URI(url).toURL().getHost().toLowerCase(Locale.ROOT);
+        } catch (MalformedURLException | URISyntaxException e) {
             return null;
         }
     }
@@ -145,16 +146,16 @@ public class URLUtil {
             // get the full url, and replace the query string with and empty
             // string
             url = url.toLowerCase(Locale.ROOT);
-            String queryStr = new URL(url).getQuery();
+            String queryStr = new URI(url).toURL().getQuery();
             return (queryStr != null) ? url.replace("?" + queryStr, "") : url;
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
             return null;
         }
     }
 
     public static String toASCII(String url) {
         try {
-            URL u = new URL(url);
+            URL u = new URI(url).toURL();
             URI p =
                     new URI(
                             u.getProtocol(),
@@ -173,7 +174,7 @@ public class URLUtil {
 
     public static String toUNICODE(String url) {
         try {
-            URL u = new URL(url);
+            URL u = new URI(url).toURL();
             URI p =
                     new URI(
                             u.getProtocol(),

@@ -19,6 +19,8 @@ package org.apache.stormcrawler.filtering;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,18 +42,18 @@ class MaxDepthFilterTest {
     }
 
     @Test
-    void testDepthZero() throws MalformedURLException {
+    void testDepthZero() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("maxDepth", 0);
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
         Assertions.assertEquals(null, filterResult);
     }
 
     @Test
-    void testDepth() throws MalformedURLException {
+    void testDepth() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("maxDepth", 2);
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         metadata.setValue(MetadataTransfer.depthKeyName, "2");
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
@@ -59,9 +61,9 @@ class MaxDepthFilterTest {
     }
 
     @Test
-    void testCustomDepthZero() throws MalformedURLException {
+    void testCustomDepthZero() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("maxDepth", 3);
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         metadata.setValue(MetadataTransfer.maxDepthKeyName, "0");
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
@@ -69,9 +71,9 @@ class MaxDepthFilterTest {
     }
 
     @Test
-    void testCustomDepth() throws MalformedURLException {
+    void testCustomDepth() throws MalformedURLException, URISyntaxException {
         URLFilter filter = createFilter("maxDepth", 1);
-        URL url = new URL("http://www.sourcedomain.com/");
+        URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         metadata.setValue(MetadataTransfer.maxDepthKeyName, "2");
         metadata.setValue(MetadataTransfer.depthKeyName, "1");
