@@ -45,7 +45,7 @@ class FastURLFilterTest {
         URL url = new URI("http://www.somedomain.com/image.jpg").toURL();
         Metadata metadata = new Metadata();
         String filterResult = createFilter().filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
     }
 
     @Test
@@ -53,7 +53,7 @@ class FastURLFilterTest {
         URL url = new URI("http://stormcrawler.net/").toURL();
         Metadata metadata = new Metadata();
         String filterResult = createFilter().filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         // allowed
         url = new URI("http://stormcrawler.net/bla/").toURL();
         filterResult = createFilter().filter(url, metadata, url.toExternalForm());
@@ -66,6 +66,6 @@ class FastURLFilterTest {
         Metadata metadata = new Metadata();
         metadata.addValue("key", "value");
         String filterResult = createFilter().filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
     }
 }

@@ -47,7 +47,7 @@ class BasicURLFilterTest {
         Metadata metadata = new Metadata();
         URL targetURL = new URI("http://www.sourcedomain.com/a/a/a/index.html").toURL();
         String filterResult = filter.filter(targetURL, metadata, targetURL.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         targetURL = new URL("http://www.sourcedomain.com/a/b/a/index.html");
         filterResult = filter.filter(targetURL, metadata, targetURL.toExternalForm());
         Assertions.assertEquals(targetURL.toExternalForm(), filterResult);
@@ -59,7 +59,7 @@ class BasicURLFilterTest {
         Metadata metadata = new Metadata();
         URL targetURL = new URI("http://www.sourcedomain.com/a/a/a/index.html").toURL();
         String filterResult = filter.filter(targetURL, metadata, targetURL.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         targetURL = new URL("http://www.sourcedomain.com/");
         filterResult = filter.filter(targetURL, metadata, targetURL.toExternalForm());
         Assertions.assertEquals(targetURL.toExternalForm(), filterResult);

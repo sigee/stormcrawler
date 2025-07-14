@@ -47,7 +47,7 @@ class MaxDepthFilterTest {
         URL url = new URI("http://www.sourcedomain.com/").toURL();
         Metadata metadata = new Metadata();
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
     }
 
     @Test
@@ -57,7 +57,7 @@ class MaxDepthFilterTest {
         Metadata metadata = new Metadata();
         metadata.setValue(MetadataTransfer.depthKeyName, "2");
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
     }
 
     @Test
@@ -67,7 +67,7 @@ class MaxDepthFilterTest {
         Metadata metadata = new Metadata();
         metadata.setValue(MetadataTransfer.maxDepthKeyName, "0");
         String filterResult = filter.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
     }
 
     @Test

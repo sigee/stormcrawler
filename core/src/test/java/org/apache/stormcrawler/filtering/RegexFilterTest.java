@@ -50,8 +50,7 @@ class RegexFilterTest {
         URL url = new URI("ftp://www.someFTP.com/#0").toURL();
         Metadata metadata = new Metadata();
         String filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
-        String expected = null;
-        Assertions.assertEquals(expected, filterResult);
+        Assertions.assertNull(filterResult);
     }
 
     @Test
@@ -60,22 +59,22 @@ class RegexFilterTest {
         URL url = new URI("http://www.someFTP.com/bla.gif").toURL();
         Metadata metadata = new Metadata();
         String filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         url = new URI("http://www.someFTP.com/bla.GIF").toURL();
         filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         url = new URI("http://www.someFTP.com/bla.GIF&somearg=0").toURL();
         filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         url = new URI("http://www.someFTP.com/bla.GIF?somearg=0").toURL();
         filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
         // not this one : the gif is within the path
         url = new URI("http://www.someFTP.com/bla.GIF.orNot").toURL();
         filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
         Assertions.assertEquals(url.toExternalForm(), filterResult);
         url = new URI("http://www.someFTP.com/bla.mp4").toURL();
         filterResult = allAllowed.filter(url, metadata, url.toExternalForm());
-        Assertions.assertEquals(null, filterResult);
+        Assertions.assertNull(filterResult);
     }
 }
