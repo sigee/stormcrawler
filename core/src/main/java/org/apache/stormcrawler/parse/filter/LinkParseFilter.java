@@ -121,7 +121,7 @@ public class LinkParseFilter extends XPathFilter {
             }
         }
 
-        parse.setOutlinks(new ArrayList(dedup.values()));
+        parse.setOutlinks(new ArrayList<>(dedup.values()));
     }
 
     @Override

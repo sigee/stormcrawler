@@ -50,7 +50,7 @@ public class RemoteDriverProtocol extends SeleniumProtocol {
             } else if (val instanceof Map<?, ?>) {
                 substituteUserAgent((Map<String, Object>) val, userAgentString);
             } else if (val instanceof List<?>) {
-                List newList = new ArrayList<String>();
+                List<String> newList = new ArrayList<>();
                 ((List<String>) val)
                         .forEach(
                                 s -> {
