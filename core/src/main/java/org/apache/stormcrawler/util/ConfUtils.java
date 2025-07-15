@@ -83,7 +83,7 @@ public class ConfUtils {
             boolean defaultValue) {
         Object ret = conf.get(prefix + optional + suffix);
         if (ret != null) {
-            return ((Boolean) ret).booleanValue();
+            return (Boolean) ret;
         }
         return getBoolean(conf, prefix + suffix, defaultValue);
     }
@@ -93,7 +93,7 @@ public class ConfUtils {
         if (ret == null) {
             ret = defaultValue;
         }
-        return ((Boolean) ret).booleanValue();
+        return (Boolean) ret;
     }
 
     /**
