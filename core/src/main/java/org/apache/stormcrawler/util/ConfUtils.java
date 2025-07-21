@@ -169,7 +169,10 @@ public class ConfUtils {
      * @return List of String values
      */
     public static List<String> loadListFromConf(
-            final String prefix, final String optional, final String suffix, Map<String, Object> stormConf) {
+            final String prefix,
+            final String optional,
+            final String suffix,
+            Map<String, Object> stormConf) {
         List<String> list = loadListFromConf(prefix + optional + suffix, stormConf);
         if (!list.isEmpty()) return list;
         return loadListFromConf(prefix + suffix, stormConf);
@@ -178,9 +181,9 @@ public class ConfUtils {
     public static Config loadConf(String resource, Config conf) throws FileNotFoundException {
         Yaml yaml = new Yaml();
         Map<String, Object> ret =
-                        yaml.load(
-                                new InputStreamReader(
-                                        new FileInputStream(resource), Charset.defaultCharset()));
+                yaml.load(
+                        new InputStreamReader(
+                                new FileInputStream(resource), Charset.defaultCharset()));
         if (ret == null) {
             ret = new HashMap<>();
         }
