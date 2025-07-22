@@ -92,14 +92,14 @@ public class MetricsConsumer implements IMetricsConsumer {
                 LOG.error("Exception while indexing datapoint", e);
             }
         } else if (value instanceof Map) {
-            Iterator<Entry> keyValiter = ((Map) value).entrySet().iterator();
+            Iterator<Entry<String, Object>> keyValiter = ((Map<String, Object>) value).entrySet().iterator();
             while (keyValiter.hasNext()) {
-                Entry entry = keyValiter.next();
+                Entry<String, Object> entry = keyValiter.next();
                 String newnameprefix = nameprefix + "." + entry.getKey();
                 handleDataPoints(preparedStmt, taskInfo, newnameprefix, entry.getValue(), now);
             }
         } else if (value instanceof Collection) {
-            for (Object collectionObj : (Collection) value) {
+            for (Object collectionObj : (Collection<Object>) value) {
                 handleDataPoints(preparedStmt, taskInfo, nameprefix, collectionObj, now);
             }
         } else {

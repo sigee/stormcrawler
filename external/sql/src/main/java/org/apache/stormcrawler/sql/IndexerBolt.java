@@ -50,7 +50,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
     private String tableName;
 
-    private Map conf;
+    private Map<String, Object> conf;
 
     @Override
     public void prepare(
