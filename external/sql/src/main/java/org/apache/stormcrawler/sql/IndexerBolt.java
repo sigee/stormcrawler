@@ -50,7 +50,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
     private String tableName;
 
-    private Map conf;
+    private Map<String, Object> conf;
 
     @Override
     public void prepare(
@@ -99,8 +99,8 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
             Object[] keys = keyVals.keySet().toArray();
 
-            for (int i = 0; i < keys.length; i++) {
-                query.append(", ").append((String) keys[i]);
+            for (Object o : keys) {
+                query.append(", ").append((String) o);
             }
 
             query.append(") values(?");
