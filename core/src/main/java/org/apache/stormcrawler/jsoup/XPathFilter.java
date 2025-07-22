@@ -63,7 +63,6 @@ public class XPathFilter extends AbstractConfigurable implements JSoupFilter {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public void configure(@NotNull Map<String, Object> stormConf, @NotNull JsonNode filterParams) {
         super.configure(stormConf, filterParams);
