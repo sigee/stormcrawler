@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -112,9 +111,7 @@ public class MetricsConsumer implements IMetricsConsumer {
         if (value instanceof Number) {
             indexDataPoint(taskInfo, now, nameprefix, ((Number) value).doubleValue());
         } else if (value instanceof Map) {
-            Iterator<Entry<String, Object>> keyValiter = ((Map<String, Object>) value).entrySet().iterator();
-            while (keyValiter.hasNext()) {
-                Entry<String, Object> entry = keyValiter.next();
+            for (Entry<String, Object> entry : ((Map<String, Object>) value).entrySet()) {
                 String newnameprefix = nameprefix + "." + entry.getKey();
                 handleDataPoints(taskInfo, newnameprefix, entry.getValue(), now);
             }

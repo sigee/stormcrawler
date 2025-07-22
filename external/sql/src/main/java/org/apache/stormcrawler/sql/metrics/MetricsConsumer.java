@@ -22,7 +22,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.storm.metric.api.IMetricsConsumer;
@@ -92,9 +91,7 @@ public class MetricsConsumer implements IMetricsConsumer {
                 LOG.error("Exception while indexing datapoint", e);
             }
         } else if (value instanceof Map) {
-            Iterator<Entry<String, Object>> keyValiter = ((Map<String, Object>) value).entrySet().iterator();
-            while (keyValiter.hasNext()) {
-                Entry<String, Object> entry = keyValiter.next();
+            for (Entry<String, Object> entry : ((Map<String, Object>) value).entrySet()) {
                 String newnameprefix = nameprefix + "." + entry.getKey();
                 handleDataPoints(preparedStmt, taskInfo, newnameprefix, entry.getValue(), now);
             }
