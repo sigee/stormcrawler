@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.opensearch.persistence;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -31,10 +32,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.storm.metric.api.MultiCountMetric;
 import org.apache.storm.metric.api.MultiReducedMetric;
 import org.apache.storm.task.OutputCollector;
@@ -160,11 +160,16 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt
             fieldNameForRoutingKey = fieldNameForRoutingKey.replaceAll("\\.", "%2E");
         }
 
-        waitAck =
-                Caffeine.newBuilder()
-                        .expireAfterWrite(60, TimeUnit.SECONDS)
-                        .removalListener(this)
-                        .build();
+        String defaultSpec =
+                String.format(
+                        Locale.ROOT,
+                        "expireAfterWrite=%ds",
+                        ConfUtils.getInt(stormConf, "topology.message.timeout.secs", 300));
+
+        String waitAckSpec =
+                ConfUtils.getString(stormConf, "opensearch.status.waitack.cache.spec", defaultSpec);
+
+        waitAck = Caffeine.from(waitAckSpec).removalListener(this).build();
 
         int metrics_time_bucket_secs = 30;
 
@@ -307,7 +312,7 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt
         LOG.error("Purged from waitAck {} with {} values", key, value.size());
         for (Tuple t : value) {
             eventCounter.scope("purged").incrBy(1);
-            _collector.fail(t);
+            collector.fail(t);
         }
     }
 
@@ -405,7 +410,7 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt
                     } else {
                         failureCount++;
                         eventCounter.scope("failed").incrBy(1);
-                        _collector.fail(tuple);
+                        collector.fail(tuple);
                     }
                 }
             } else {
@@ -456,7 +461,7 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt
                 for (Tuple x : failedTuples) {
                     // fail it
                     eventCounter.scope("failed").incrBy(1);
-                    _collector.fail(x);
+                    collector.fail(x);
                 }
             } else {
                 LOG.warn("Could not find unacked tuple for {}", id);

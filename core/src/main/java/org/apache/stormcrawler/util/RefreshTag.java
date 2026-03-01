@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Collector;
 import org.jsoup.select.Evaluator;
@@ -35,7 +36,9 @@ public abstract class RefreshTag {
 
     // Returns a normalised value of the content attribute for the refresh tag
     public static String extractRefreshURL(String value) {
-        if (StringUtils.isBlank(value)) return null;
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
 
         // 0;URL=http://www.apollocolors.com/site
         try {

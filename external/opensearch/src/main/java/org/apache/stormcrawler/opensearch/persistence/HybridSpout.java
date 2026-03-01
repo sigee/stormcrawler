@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.opensearch.persistence;
 
 import static org.opensearch.index.query.QueryBuilders.boolQuery;
@@ -97,7 +98,7 @@ public class HybridSpout extends AggregationSpout implements EmptyQueueListener 
 
         if (queryDate == null) {
             queryDate = new Date();
-            lastTimeResetToNOW = Instant.now();
+            lastTimeResetToNow = Instant.now();
         }
 
         String formattedQueryDate = ISODateTimeFormat.dateTimeNoMillis().print(queryDate.getTime());

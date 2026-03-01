@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.warc;
 
 import java.io.IOException;
@@ -124,7 +125,7 @@ public class WARCSpout extends FileSpout {
         }
 
         byte[] head = buffer.removeFirst();
-        List<Object> fields = _scheme.deserialize(ByteBuffer.wrap(head));
+        List<Object> fields = scheme.deserialize(ByteBuffer.wrap(head));
         warcFileInProgress = (String) fields.get(0);
         if (warcFileInProgress == null) return;
 
@@ -554,7 +555,7 @@ public class WARCSpout extends FileSpout {
 
             nextRecord(offset, metadata); // proceed and calculate length
 
-            _collector.emit(new Values(url, content, metadata), url);
+            collector.emit(new Values(url, content, metadata), url);
 
             return;
         }
@@ -562,7 +563,7 @@ public class WARCSpout extends FileSpout {
         nextRecord(offset, metadata); // proceed and calculate length
 
         // redirects, 404s, etc.
-        _collector.emit(Constants.StatusStreamName, new Values(url, metadata, status), url);
+        collector.emit(Constants.StatusStreamName, new Values(url, metadata, status), url);
     }
 
     @Override

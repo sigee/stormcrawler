@@ -32,12 +32,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 @Timeout(value = 120, unit = TimeUnit.SECONDS)
 public abstract class SolrContainerTest {
     protected static ExecutorService executorService;
 
-    private static final DockerImageName image = DockerImageName.parse("solr:9.8.1");
+    private static final DockerImageName image = DockerImageName.parse("solr:9.10.0");
     private static final String configsetsPath = new File("configsets").getAbsolutePath();
 
     @Container

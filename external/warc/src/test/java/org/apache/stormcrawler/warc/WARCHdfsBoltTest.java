@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.warc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -77,7 +78,7 @@ class WARCHdfsBoltTest {
         bolt.withConfigKey("warc");
         Map<String, Object> hdfsConf = new HashMap<>();
         hdfsConf.put("fs.file.impl", "org.apache.hadoop.fs.RawLocalFileSystem");
-        conf = new HashMap<String, Object>();
+        conf = new HashMap<>();
         conf.put("warc", hdfsConf);
         conf.put(ProtocolResponse.PROTOCOL_MD_PREFIX_PARAM, protocolMDprefix);
         bolt.prepare(conf, TestUtil.getMockedTopologyContext(), new OutputCollector(output));

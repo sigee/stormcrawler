@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.protocol.okhttp;
 
 import java.io.IOException;
@@ -41,11 +42,13 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import kotlin.Pair;
 import okhttp3.Call;
+import okhttp3.CompressionInterceptor;
 import okhttp3.Connection;
 import okhttp3.ConnectionPool;
 import okhttp3.Credentials;
 import okhttp3.EventListener;
 import okhttp3.EventListener.Factory;
+import okhttp3.Gzip;
 import okhttp3.Handshake;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -58,10 +61,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.Route;
-import okhttp3.brotli.BrotliInterceptor;
+import okhttp3.brotli.Brotli;
+import okhttp3.zstd.Zstd;
 import okio.BufferedSource;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.mutable.MutableObject;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.http.HttpHeaders;
 import org.apache.http.cookie.Cookie;
 import org.apache.storm.Config;
@@ -80,7 +84,7 @@ public class HttpProtocol extends AbstractHttpProtocol {
 
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(HttpProtocol.class);
 
-    private final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private final MediaType json = MediaType.parse("application/json; charset=utf-8");
 
     private OkHttpClient client;
 
@@ -159,8 +163,8 @@ public class HttpProtocol extends AbstractHttpProtocol {
         // protocols in order of preference, see
         // https://square.github.io/okhttp/4.x/okhttp/okhttp3/-ok-http-client/-builder/protocols/
         final List<okhttp3.Protocol> protocols = new ArrayList<>();
-        for (String pVersion : protocolVersions) {
-            switch (pVersion) {
+        for (String protocolVersion : protocolVersions) {
+            switch (protocolVersion) {
                 case "h2":
                     protocols.add(okhttp3.Protocol.HTTP_2);
                     break;
@@ -178,7 +182,7 @@ public class HttpProtocol extends AbstractHttpProtocol {
                     LOG.warn("http/1.0 ignored, not supported by okhttp for requests");
                     break;
                 default:
-                    LOG.error("{}: unknown protocol version", pVersion);
+                    LOG.error("{}: unknown protocol version", protocolVersion);
                     break;
             }
         }
@@ -217,7 +221,7 @@ public class HttpProtocol extends AbstractHttpProtocol {
 
         customHeaders.forEach(customRequestHeaders::add);
 
-        if (storeHTTPHeaders) {
+        if (storeHttpHeaders) {
             builder.addNetworkInterceptor(new HTTPHeadersInterceptor());
         }
 
@@ -240,8 +244,9 @@ public class HttpProtocol extends AbstractHttpProtocol {
                     }
                 });
 
-        // enable support for Brotli compression (Content-Encoding)
-        builder.addInterceptor(BrotliInterceptor.INSTANCE);
+        // enable support for Zstd, Brotli, Gzip Content-Encoding
+        builder.addInterceptor(
+                new CompressionInterceptor(Zstd.INSTANCE, Brotli.INSTANCE, Gzip.INSTANCE));
 
         final Map<String, Object> connectionPoolConf =
                 (Map<String, Object>) conf.get("okhttp.protocol.connection.pool");
@@ -260,7 +265,8 @@ public class HttpProtocol extends AbstractHttpProtocol {
     }
 
     private void addCookiesToRequest(Builder rb, String url, Metadata md) {
-        final String[] cookieStrings = md.getValues(RESPONSE_COOKIES_HEADER, protocolMDprefix);
+        final String[] cookieStrings =
+                md.getValues(RESPONSE_COOKIES_HEADER, protocolMetadataPrefix);
         if (cookieStrings == null || cookieStrings.length == 0) {
             return;
         }
@@ -274,7 +280,7 @@ public class HttpProtocol extends AbstractHttpProtocol {
     }
 
     protected void addHeadersToRequest(Builder rb, Metadata md) {
-        final String[] headerStrings = md.getValues(SET_HEADER_BY_REQUEST, protocolMDprefix);
+        final String[] headerStrings = md.getValues(SET_HEADER_BY_REQUEST, protocolMetadataPrefix);
 
         if (headerStrings != null && headerStrings.length > 0) {
             for (String hs : headerStrings) {
@@ -355,7 +361,8 @@ public class HttpProtocol extends AbstractHttpProtocol {
                 rb.header(HttpHeaders.IF_MODIFIED_SINCE, formatHttpDate(lastModified));
             }
 
-            final String ifNoneMatch = metadata.getFirstValue(HttpHeaders.ETAG, protocolMDprefix);
+            final String ifNoneMatch =
+                    metadata.getFirstValue(HttpHeaders.ETAG, protocolMetadataPrefix);
             if (StringUtils.isNotBlank(ifNoneMatch)) {
                 rb.header(HttpHeaders.IF_NONE_MATCH, ifNoneMatch);
             }
@@ -383,9 +390,9 @@ public class HttpProtocol extends AbstractHttpProtocol {
                 addCookiesToRequest(rb, url, metadata);
             }
 
-            final String postJSONData = metadata.getFirstValue("http.post.json");
-            if (StringUtils.isNotBlank(postJSONData)) {
-                RequestBody body = RequestBody.create(postJSONData, JSON);
+            final String postJsonData = metadata.getFirstValue("http.post.json");
+            if (StringUtils.isNotBlank(postJsonData)) {
+                RequestBody body = RequestBody.create(postJsonData, json);
                 rb.post(body);
             }
 
@@ -431,9 +438,9 @@ public class HttpProtocol extends AbstractHttpProtocol {
                 LOG.warn("HTTP content trimmed to {}", bytes.length);
             }
 
-            final Long DNSResolution = DNStimes.remove(call.toString());
-            if (DNSResolution != null) {
-                responsemetadata.setValue("metrics.dns.resolution.msec", DNSResolution.toString());
+            final Long dnsResolution = DNStimes.remove(call.toString());
+            if (dnsResolution != null) {
+                responsemetadata.setValue("metrics.dns.resolution.msec", dnsResolution.toString());
             }
 
             return new ProtocolResponse(bytes, response.code(), responsemetadata);

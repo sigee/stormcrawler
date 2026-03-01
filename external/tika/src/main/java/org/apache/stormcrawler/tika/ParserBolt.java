@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.tika;
 
 import static org.apache.stormcrawler.Constants.StatusStreamName;
@@ -28,7 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.apache.http.HttpHeaders;
 import org.apache.storm.metric.api.MultiCountMetric;
@@ -70,7 +71,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.DocumentFragment;
 import org.xml.sax.ContentHandler;
 
-/** Uses Tika to parse the output of a fetch and extract text + metadata */
+/** Uses Tika to parse the output of a fetch and extract text + metadata. */
 public class ParserBolt extends BaseRichBolt {
 
     private Tika tika;
@@ -389,7 +390,7 @@ public class ParserBolt extends BaseRichBolt {
 
             // build an absolute URL
             try {
-                URL tmpURL = URLUtil.resolveURL(url_, l.getUri());
+                URL tmpURL = URLUtil.resolveUrl(url_, l.getUri());
                 urlOL = tmpURL.toExternalForm();
             } catch (MalformedURLException e) {
                 LOG.debug("MalformedURLException on {}", l.getUri());

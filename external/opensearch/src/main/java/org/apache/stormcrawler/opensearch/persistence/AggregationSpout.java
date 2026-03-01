@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.opensearch.persistence;
 
 import static org.opensearch.index.query.QueryBuilders.boolQuery;
@@ -28,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.storm.spout.SpoutOutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.stormcrawler.Metadata;
@@ -100,7 +101,7 @@ public class AggregationSpout extends AbstractSpout implements ActionListener<Se
 
         if (queryDate == null) {
             queryDate = new Date();
-            lastTimeResetToNOW = Instant.now();
+            lastTimeResetToNow = Instant.now();
         }
 
         String formattedQueryDate = ISODateTimeFormat.dateTimeNoMillis().print(queryDate.getTime());
@@ -347,7 +348,7 @@ public class AggregationSpout extends AbstractSpout implements ActionListener<Se
         if (resetFetchDateAfterNSecs != -1) {
             Instant changeNeededOn =
                     Instant.ofEpochMilli(
-                            lastTimeResetToNOW.toEpochMilli() + (resetFetchDateAfterNSecs * 1000L));
+                            lastTimeResetToNow.toEpochMilli() + (resetFetchDateAfterNSecs * 1000L));
             if (Instant.now().isAfter(changeNeededOn)) {
                 LOG.info(
                         "{} queryDate set to null based on resetFetchDateAfterNSecs {}",

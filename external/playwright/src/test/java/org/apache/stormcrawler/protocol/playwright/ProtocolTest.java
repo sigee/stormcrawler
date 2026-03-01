@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.protocol.playwright;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.storm.Config;
 import org.apache.storm.utils.MutableObject;
 import org.apache.stormcrawler.Metadata;

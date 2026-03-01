@@ -1,4 +1,4 @@
-[![StormCrawler](https://stormcrawler.apache.org/img/Logo-small.jpg)](https://stormcrawler.apache.org/)
+[![StormCrawler](https://stormcrawler.apache.org/img/logo-dark.png)](https://stormcrawler.apache.org/)
 =============
 
 [![license](https://img.shields.io/github/license/apache/stormcrawler.svg?maxAge=2592000?style=plastic)](http://www.apache.org/licenses/LICENSE-2.0)
@@ -9,7 +9,7 @@ Apache StormCrawler is an open source collection of resources for building low-l
 
 ## Quickstart
 
-NOTE: These instructions assume that you have [Apache Maven](https://maven.apache.org/install.html) installed. You will need to install [Apache Storm 2.8.2](http://storm.apache.org/) to run the crawler.
+NOTE: These instructions assume that you have [Apache Maven](https://maven.apache.org/install.html) installed. You will need to install [Apache Storm 2.8.3](http://storm.apache.org/) to run the crawler.
 
 StormCrawler requires Java 17 or above. To execute tests, it requires you to have a locally installed and working Docker environment.
 
@@ -30,7 +30,7 @@ Have a look at [crawler.flux](https://github.com/apache/stormcrawler/blob/master
 
 ## Getting help
 
-The [WIKI](https://github.com/apache/stormcrawler/wiki) is a good place to start your investigations but if you are stuck please use the tag [stormcrawler](http://stackoverflow.com/questions/tagged/stormcrawler) on StackOverflow or ask a question in the [discussions](https://github.com/apache/stormcrawler/discussions) section.
+The [documentation](https://stormcrawler.apache.org/docs/) is a good place to start your investigations but if you are stuck please use the tag [stormcrawler](http://stackoverflow.com/questions/tagged/stormcrawler) on StackOverflow or ask a question in the [discussions](https://github.com/apache/stormcrawler/discussions) section.
 
 The project website has a page listing companies providing [commercial support](https://stormcrawler.apache.org/support/) for Apache StormCrawler.
 
