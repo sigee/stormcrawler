@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.stormcrawler.protocol.selenium;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +34,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.LoggerFactory;
 
 /**
- * Wrapper for the NavigationFilter defined in a JSON configuration
+ * Wrapper for the NavigationFilter defined in a JSON configuration.
  *
  * @see org.apache.stormcrawler.util.Configurable#createConfiguredInstance(Class, Class, Map,
  *     JsonNode) for more information.
